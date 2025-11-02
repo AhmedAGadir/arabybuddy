@@ -41,3 +41,6 @@ app-example
 # generated native folders
 /ios
 /android
+
+# apple signing key - REMINDER: you need to generate a new key every 6 months
+apple-auth-key.p8

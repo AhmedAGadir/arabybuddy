@@ -1,10 +1,9 @@
 import { Image } from 'expo-image'
+import { View } from 'react-native'
 
 import { HelloWave } from '@/components/hello-wave'
 import ParallaxScrollView from '@/components/parallax-scroll-view'
 import SignOutButton from '@/components/social-auth-buttons/sign-out-button'
-import { ThemedText } from '@/components/themed-text'
-import { ThemedView } from '@/components/themed-view'
 import { Button } from '@/components/ui/button'
 import { Text } from '@/components/ui/text'
 import { useAuthContext } from '@/hooks/use-auth-context'
@@ -31,27 +30,28 @@ export default function HomeScreen() {
         />
       }
     >
-      <ThemedView className="flex-row items-center gap-2">
-        <ThemedText type="title">Welcome!</ThemedText>
+      <View className="flex-row items-center gap-2">
+        <Text className="text-3xl font-bold">Welcome!</Text>
         <HelloWave />
-      </ThemedView>
+      </View>
+
       <Button 
-      variant="default"
-      onPress={() => {
-        console.log('toggle theme');
-      }}
-      size="lg"
-      className="mt-4"
+        variant="default"
+        onPress={() => {
+          console.log('toggle theme');
+        }}
+        size="lg"
+        className="mt-4"
       >
         <Text>Toggle theme</Text>
       </Button>
 
-      <ThemedView className="gap-2 mb-2">
-        <ThemedText type="subtitle">Username</ThemedText>
-        <ThemedText>{profile?.username}</ThemedText>
-        <ThemedText type="subtitle">Full name</ThemedText>
-        <ThemedText>{profile?.full_name}</ThemedText>
-      </ThemedView>
+      <View className="gap-2 mb-2">
+        <Text className="text-xl font-medium">Username</Text>
+        <Text>{profile?.username}</Text>
+        <Text className="text-xl font-medium">Full name</Text>
+        <Text>{profile?.full_name}</Text>
+      </View>
 
       <SignOutButton />
     </ParallaxScrollView>

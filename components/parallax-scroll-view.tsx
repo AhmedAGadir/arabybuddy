@@ -1,12 +1,12 @@
 import type { PropsWithChildren, ReactElement } from 'react';
+import { View } from 'react-native';
 import Animated, {
-    interpolate,
-    useAnimatedRef,
-    useAnimatedStyle,
-    useScrollOffset,
+  interpolate,
+  useAnimatedRef,
+  useAnimatedStyle,
+  useScrollOffset,
 } from 'react-native-reanimated';
 
-import { ThemedView } from '@/components/themed-view';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 const HEADER_HEIGHT = 250;
@@ -57,7 +57,7 @@ export default function ParallaxScrollView({
         ]}>
         {headerImage}
       </Animated.View>
-      <ThemedView className="flex-1 p-8 gap-4 overflow-hidden">{children}</ThemedView>
+      <View className="flex-1 p-8 gap-4 overflow-hidden bg-background">{children}</View>
     </Animated.ScrollView>
   );
 }
