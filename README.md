@@ -56,6 +56,12 @@ SUPABASE
 
 to link to the project online run 
 
+first log in to the CLI
+
+```
+npx supabase login
+```
+
 ```
 supabase link --project-ref <project-id>
 # You can get <project-id> from your project's dashboard URL: https://supabase.com/dashboard/project/<project-id>
