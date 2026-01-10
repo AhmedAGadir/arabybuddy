@@ -44,3 +44,4 @@ app-example
 
 # apple signing key - REMINDER: you need to generate a new key every 6 months
 /secrets
+
