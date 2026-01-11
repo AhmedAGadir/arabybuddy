@@ -77,15 +77,15 @@ We use **feature-based architecture** with **thin routes**. Route files in `app/
 ```
 arabybuddy/
 │
-├── app/                                    # EXPO ROUTER - Thin routes only
-│   ├── _layout.tsx                         # Root layout (providers)
+├── app/                                    # EXPO ROUTER - Thin routes only (NO business logic!)
+│   ├── _layout.tsx                         # Root layout (providers, navigation config only)
 │   ├── login.tsx                           # → export { LoginScreen } from '@/features/auth'
 │   ├── forgot-password.tsx                 # → export { ForgotPasswordScreen } from '@/features/auth'
 │   ├── reset-password.tsx                  # → export { ResetPasswordScreen } from '@/features/auth'
 │   ├── auth/
-│   │   └── callback.tsx                    # OAuth callback handler
+│   │   └── callback.tsx                    # → export { AuthCallbackScreen } from '@/features/auth'
 │   └── (tabs)/
-│       ├── _layout.tsx                     # Tab navigator config
+│       ├── _layout.tsx                     # Tab navigator config (navigation only)
 │       ├── index.tsx                       # → export { HomeScreen } from '@/features/lessons'
 │       └── explore.tsx                     # → export { ExploreScreen } from '@/features/lessons'
 │
@@ -194,7 +194,15 @@ arabybuddy/
    export { LoginScreen as default } from '@/features/auth';
    ```
 
-2. **Feature Encapsulation**: Each feature exports a clean public API via `index.ts`:
+2. **No Business Logic in `app/`**: The `app/` folder is **only for routing**. All business logic, components, hooks, and services must live in `features/` or `shared/`. This includes:
+   - Screen components with UI and logic → `features/*/screens/`
+   - API calls and data fetching → `features/*/services/`
+   - Form validation → `features/*/validation/`
+   - Custom hooks → `features/*/hooks/`
+   
+   **Exception**: Layout files (`_layout.tsx`) may contain minimal navigation configuration.
+
+3. **Feature Encapsulation**: Each feature exports a clean public API via `index.ts`:
    ```typescript
    // features/auth/index.ts
    export { LoginScreen } from './screens/LoginScreen';
@@ -202,14 +210,14 @@ arabybuddy/
    export { useAuthContext } from './hooks/useAuthContext';
    ```
 
-3. **Colocated Tests**: Test files live next to source files:
+4. **Colocated Tests**: Test files live next to source files:
    ```
    features/auth/services/
    ├── authService.ts
    └── authService.test.ts
    ```
 
-4. **Shared Only When Cross-Cutting**: Only truly shared utilities go in `shared/`
+5. **Shared Only When Cross-Cutting**: Only truly shared utilities go in `shared/`
 
 ### File Naming Conventions
 

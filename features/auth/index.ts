@@ -2,6 +2,7 @@
 export { default as LoginScreen } from './screens/LoginScreen';
 export { default as ForgotPasswordScreen } from './screens/ForgotPasswordScreen';
 export { default as ResetPasswordScreen } from './screens/ResetPasswordScreen';
+export { default as AuthCallbackScreen } from './screens/AuthCallbackScreen';
 
 // Components
 export { AppleSignInButton } from './components/AppleSignInButton';
