@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "supabase": {
+      "type": "http",
+      "url": "https://mcp.supabase.com/mcp?project_ref=nwlruwlijpvapkxuudrx"
+    },
+    "expo-mcp": {
+      "type": "http",
+      "url": "https://mcp.expo.dev/mcp"
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    },
+    "gluestack": {
+      "command": "node",
+      "args": ["/Users/ahmed/dev/gluestack-mcp/index.js"]
+    }
+  }
+}

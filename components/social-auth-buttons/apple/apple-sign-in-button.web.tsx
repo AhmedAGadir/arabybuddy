@@ -1,11 +1,8 @@
-import { Button } from '@/components/ui/button';
-import { Text } from '@/components/ui/text';
+import { Pressable, Text } from 'react-native';
 import { supabase } from '@/lib/supabase';
 
 async function onAppleButtonPress() {
   const redirectUrl = `${window.location.origin}/auth/callback`;
-
-  console.log('Starting OAuth with redirect:', redirectUrl);
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'apple',
@@ -18,15 +15,12 @@ async function onAppleButtonPress() {
   if (error) {
     console.error('Sign in error:', error);
   }
-
-  console.log('OAuth URL:', data?.url);
 }
 
 export default function AppleSignInButton() {
   return (
-    <Button className="w-40 h-12" onPress={onAppleButtonPress}>
-      <Text className="text-primary-foreground">Sign in with Apple</Text>
-    </Button>
+    <Pressable onPress={onAppleButtonPress}>
+      <Text>Sign in with Apple</Text>
+    </Pressable>
   );
 }
-

@@ -1,27 +1,21 @@
-import { Button } from '@/components/ui/button';
-import { Text } from '@/components/ui/text';
+import { Pressable, Text } from 'react-native';
 import { useAuthContext } from '@/hooks/use-auth-context';
 import { supabase } from '@/lib/supabase';
-import React from 'react';
 
 async function onSignOutButtonPress() {
- const { error } = await supabase.auth.signOut()
+  const { error } = await supabase.auth.signOut();
 
- if (error) {
-   console.error('Error signing out:', error)
- }
+  if (error) {
+    console.error('Error signing out:', error);
+  }
 }
 
 export default function SignOutButton() {
   const { isLoggedIn } = useAuthContext();
 
   return (
-    <Button
-      size="lg"
-      disabled={!isLoggedIn}
-      onPress={onSignOutButtonPress}
-    >
+    <Pressable onPress={onSignOutButtonPress} disabled={!isLoggedIn}>
       <Text>Sign out</Text>
-    </Button>
+    </Pressable>
   );
 }

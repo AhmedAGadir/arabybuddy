@@ -1,34 +1,40 @@
-import { ThemeProvider } from '@react-navigation/native';
 import { PortalHost } from '@rn-primitives/portal';
 import { Stack } from 'expo-router';
+import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
-import '../global.css';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import {
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+} from '@expo-google-fonts/poppins';
+import {
+  Tajawal_400Regular,
+  Tajawal_500Medium,
+  Tajawal_700Bold,
+} from '@expo-google-fonts/tajawal';
+import { LuckiestGuy_400Regular } from '@expo-google-fonts/luckiest-guy';
 
 import { SplashScreenController } from '@/components/splash-screen-controller';
 import { useAuthContext } from '@/hooks/use-auth-context';
-import { NAV_THEME } from '@/lib/theme';
 import AuthProvider from '@/providers/auth-provider';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from '@/src/lib/query-client';
 
-
-// Set the animation options. This is optional.
 SplashScreen.setOptions({
   duration: 1000,
   fade: true,
 });
 
-
-
 export const unstable_settings = {
   anchor: '(tabs)',
 };
 
-// Separate RootNavigator so we can access the AuthContext
 function RootNavigator() {
-  const { isLoggedIn } = useAuthContext()
+  const { isLoggedIn } = useAuthContext();
   return (
     <Stack>
       <Stack.Protected guard={isLoggedIn}>
@@ -38,34 +44,39 @@ function RootNavigator() {
         <Stack.Screen name="login" options={{ headerShown: false }} />
       </Stack.Protected>
       <Stack.Protected guard={!isLoggedIn}>
-      <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack.Protected>
       <Stack.Screen name="+not-found" />
     </Stack>
-  )
+  );
 }
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const [fontsLoaded] = useFonts({
+    LuckiestGuy: LuckiestGuy_400Regular,
+    Poppins: Poppins_400Regular,
+    'Poppins-Medium': Poppins_500Medium,
+    'Poppins-SemiBold': Poppins_600SemiBold,
+    'Poppins-Bold': Poppins_700Bold,
+    Tajawal: Tajawal_400Regular,
+    'Tajawal-Medium': Tajawal_500Medium,
+    'Tajawal-Bold': Tajawal_700Bold,
+    DGBebo: require('../assets/fonts/DGBebo-Regular.ttf'),
+    'DGBebo-Bold': require('../assets/fonts/DGBebo-Bold.ttf'),
+  });
 
-  // TODO: figure out fonts loading issue
-  // const [loaded] = useFonts({
-  //   SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  // })
-
-  // if (!loaded) {
-  //   // Async font loading only occurs in development.
-  //   return null
-  // }
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
-    <ThemeProvider value={NAV_THEME[colorScheme ?? 'light']}>
-       <AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
         <SplashScreenController />
         <RootNavigator />
         <StatusBar style="auto" />
-      <PortalHost />
-       </AuthProvider>
-    </ThemeProvider>
+        <PortalHost />
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }

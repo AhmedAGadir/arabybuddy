@@ -1,0 +1,1 @@
+see docs/project-management/agent-rules.md for full agent rules

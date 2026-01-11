@@ -56,7 +56,7 @@ export default function GoogleSignInButton() {
 
   return (
     <GoogleOAuthProvider
-      clientId={process.env.EXPO_PUBLIC_GOOGLE_AUTH_WEB_CLIENT_ID ?? ''}
+      clientId={process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ?? ''}
       nonce={sha256Nonce}
     >
       <GoogleLogin

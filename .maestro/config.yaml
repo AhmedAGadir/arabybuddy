@@ -1,0 +1,15 @@
+# Maestro Configuration
+# See: https://maestro.mobile.dev/
+
+appId: com.gadirtechltd.arabybuddy
+
+# Default execution settings
+executionOrder:
+  continueOnFailure: false
+  flowsOrder:
+    - auth-flow.yaml
+
+# Environment variables for tests
+env:
+  TEST_EMAIL: "test@example.com"
+  TEST_PASSWORD: "testpassword123"

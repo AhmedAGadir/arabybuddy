@@ -1,0 +1,22 @@
+appId: com.gadirtechltd.arabybuddy
+---
+# Auth Flow E2E Test
+# Tests the login screen and authentication flow
+
+- launchApp
+
+# Verify login screen is displayed
+- assertVisible: "ArabyBuddy"
+- assertVisible: "Sign in to continue"
+
+# Verify legal links are present
+- assertVisible: "Terms of Service"
+- assertVisible: "Privacy Policy"
+
+# Verify sign-in buttons are present
+- assertVisible:
+    id: "apple-sign-in-button"
+    optional: true
+- assertVisible:
+    id: "google-sign-in-button"
+    optional: true

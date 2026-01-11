@@ -1,8 +1,6 @@
 import { PropsWithChildren, useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
-
+import { View, Text, TouchableOpacity } from 'react-native';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Text } from '@/components/ui/text';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
@@ -10,28 +8,20 @@ export function Collapsible({ children, title }: PropsWithChildren & { title: st
   const theme = useColorScheme() ?? 'light';
 
   return (
-    <View className="bg-background">
-      <TouchableOpacity
-        className="flex-row items-center gap-1.5"
-        onPress={() => setIsOpen((value) => !value)}
-        activeOpacity={0.8}>
-        <IconSymbol
-          name="chevron.right"
-          size={18}
-          weight="medium"
-          color={theme === 'light' ? 'hsl(var(--muted-foreground))' : 'hsl(var(--muted-foreground))'}
-          style={{ transform: [{ rotate: isOpen ? '90deg' : '0deg' }] }}
-        />
-
-        <Text variant="small" className="font-semibold">
-          {title}
-        </Text>
-      </TouchableOpacity>
-      {isOpen && (
-        <View className="bg-background mt-1.5 ml-6">
-          {children}
+    <View>
+      <TouchableOpacity onPress={() => setIsOpen((value) => !value)} activeOpacity={0.8}>
+        <View>
+          <IconSymbol
+            name="chevron.right"
+            size={18}
+            weight="medium"
+            color={theme === 'light' ? '#6B7280' : '#9CA3AF'}
+            style={{ transform: [{ rotate: isOpen ? '90deg' : '0deg' }] }}
+          />
+          <Text>{title}</Text>
         </View>
-      )}
+      </TouchableOpacity>
+      {isOpen && <View>{children}</View>}
     </View>
   );
 }
