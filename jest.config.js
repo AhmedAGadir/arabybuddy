@@ -6,18 +6,21 @@ module.exports = {
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
+    '^@/features/(.*)$': '<rootDir>/features/$1',
+    '^@/shared/(.*)$': '<rootDir>/shared/$1',
   },
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/.maestro/',
   ],
   collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
-    'components/**/*.{ts,tsx}',
-    'hooks/**/*.{ts,tsx}',
-    'lib/**/*.{ts,tsx}',
+    'features/**/*.{ts,tsx}',
+    'shared/**/*.{ts,tsx}',
+    'app/**/*.{ts,tsx}',
+    '!**/*.test.{ts,tsx}',
     '!**/*.d.ts',
     '!**/node_modules/**',
+    '!**/index.ts',
   ],
   coverageThreshold: {
     global: {

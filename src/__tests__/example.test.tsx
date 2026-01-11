@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { render, screen } from '../test-utils';
+import { render, screen } from '@/shared/testing';
 
 describe('Test setup', () => {
   it('renders correctly', () => {

@@ -49,9 +49,19 @@ Installed and configured:
 - Accessed via React Query
 - No client-side state duplication
 
-### 4. Styling & Theming ⏳ (Pending)
+### 4. Styling & Theming ✅
 
-**Status:** Not yet configured. NativeWind and Gluestack UI need to be set up.
+**Status:** Configured with Gluestack UI v3 and NativeWind.
+
+**Setup:**
+- `GluestackUIProvider` wraps the app with `mode` prop (`"light"`, `"dark"`, or `"system"`)
+- CSS variables defined in `components/ui/gluestack-ui-provider/config.ts`
+- Tailwind configured in `tailwind.config.js` with color tokens
+- Separate implementations for native (`index.tsx`) and web (`index.web.tsx`)
+
+**Theme Mode:**
+- Default mode is `"system"` - automatically follows device preference
+- Pass `mode` prop to `GluestackUIProvider` to change theme
 
 **Fonts (loaded in app):**
 - Luckiest Guy - Display font
@@ -59,12 +69,15 @@ Installed and configured:
 - Poppins - English body
 - Tajawal - Arabic body
 
+**Completed:**
+- [x] Install and configure NativeWind (Tailwind CSS)
+- [x] Install and configure Gluestack UI v3
+- [x] Define brand color tokens
+- [x] Set up light/dark/system theme support
+
 **TODO:**
-- [ ] Install and configure NativeWind (Tailwind CSS)
-- [ ] Install and configure Gluestack UI v3
-- [ ] Define brand color tokens
-- [ ] Set up light/dark theme support
 - [ ] Configure RTL support
+- [ ] Add theme persistence if user wants to override system preference
 
 ### 5. Validation & Forms ✅
 
@@ -117,7 +130,7 @@ Installed and configured:
 **MCP Connections:**
 - ✅ Supabase MCP - database operations
 - ✅ Expo MCP - builds, testing
-- ⏳ Gluestack MCP - UI components (pending Gluestack setup)
+- ✅ Gluestack MCP - UI components
 
 ## 📝 Environment Setup
 
@@ -152,11 +165,15 @@ const form = useForm({
 });
 ```
 
-### Styling
+### Styling with Tailwind/NativeWind
 ```typescript
-// Currently using basic React Native styles
-// TODO: Set up NativeWind + Gluestack UI for styling
-<Text style={{ fontSize: 24 }}>Welcome!</Text>
+// Use Tailwind classes with NativeWind
+<Text className="text-2xl text-typography-900">Welcome!</Text>
+
+// Theme-aware colors (auto-switch light/dark based on system preference)
+<View className="bg-background-0">
+  <Text className="text-primary-500">Primary text</Text>
+</View>
 ```
 
 ## 🚀 Next Steps

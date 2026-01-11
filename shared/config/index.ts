@@ -1,0 +1,2 @@
+export { appFonts } from './fonts';
+

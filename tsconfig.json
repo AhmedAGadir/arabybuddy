@@ -4,12 +4,10 @@
     "baseUrl": ".",
     "strict": true,
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "tailwind.config": [
-        "./tailwind.config.js"
-      ]
+      "@/*": ["./*"],
+      "@/features/*": ["features/*"],
+      "@/shared/*": ["shared/*"],
+      "tailwind.config": ["./tailwind.config.js"]
     }
   },
   "include": [
