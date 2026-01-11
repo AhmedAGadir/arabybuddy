@@ -24,6 +24,9 @@ import AuthProvider from '@/providers/auth-provider';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@/src/lib/query-client';
 
+import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
+import '@/global.css';
+
 SplashScreen.setOptions({
   duration: 1000,
   fade: true,
@@ -36,7 +39,9 @@ export const unstable_settings = {
 function RootNavigator() {
   const { isLoggedIn } = useAuthContext();
   return (
-    <Stack>
+    
+    <GluestackUIProvider mode="dark">
+      <Stack>
       <Stack.Protected guard={isLoggedIn}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack.Protected>
@@ -48,6 +53,8 @@ function RootNavigator() {
       </Stack.Protected>
       <Stack.Screen name="+not-found" />
     </Stack>
+    </GluestackUIProvider>
+  
   );
 }
 
