@@ -1,14 +1,15 @@
 module.exports = {
-  preset: 'jest-expo',
+  preset: 'react-native',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   transformIgnorePatterns: [
-    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg|@rn-primitives/.*|@supabase/.*)',
+    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg|@rn-primitives/.*|@supabase/.*|nativewind|react-native-css-interop|@tanstack/.*)',
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
     '^@/features/(.*)$': '<rootDir>/features/$1',
     '^@/shared/(.*)$': '<rootDir>/shared/$1',
   },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/.maestro/',
