@@ -1,6 +1,11 @@
-import { router } from 'expo-router';
+import { router, Href } from 'expo-router';
 import { JSX, useEffect } from 'react';
-import { View, ActivityIndicator, Platform } from 'react-native';
+import { Platform } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Loader2 } from 'lucide-react-native';
+
+import { VStack } from '@/components/ui/vstack';
+import { Text } from '@/components/ui/text';
 import { supabase } from '@/shared/lib/supabase';
 
 /**
@@ -25,10 +30,10 @@ export default function AuthCallbackScreen(): JSX.Element {
         if (code) {
           const { data, error } = await supabase.auth.exchangeCodeForSession(code);
           if (error || !data?.session) {
-            router.replace('/login');
+            router.replace('/login' as Href);
             return;
           }
-          router.replace('/(tabs)');
+          router.replace('/(tabs)' as Href);
           return;
         }
 
@@ -39,10 +44,10 @@ export default function AuthCallbackScreen(): JSX.Element {
             refresh_token: refreshToken,
           });
           if (error || !data?.session) {
-            router.replace('/login');
+            router.replace('/login' as Href);
             return;
           }
-          router.replace('/(tabs)');
+          router.replace('/(tabs)' as Href);
           return;
         }
       }
@@ -52,9 +57,9 @@ export default function AuthCallbackScreen(): JSX.Element {
         data: { subscription },
       } = supabase.auth.onAuthStateChange((event, session) => {
         if (event === 'SIGNED_IN' && session) {
-          router.replace('/(tabs)');
+          router.replace('/(tabs)' as Href);
         } else if (event === 'SIGNED_OUT') {
-          router.replace('/login');
+          router.replace('/login' as Href);
         }
       });
 
@@ -63,7 +68,7 @@ export default function AuthCallbackScreen(): JSX.Element {
         data: { session },
       } = await supabase.auth.getSession();
       if (session) {
-        router.replace('/(tabs)');
+        router.replace('/(tabs)' as Href);
       }
 
       return () => subscription.unsubscribe();
@@ -73,9 +78,14 @@ export default function AuthCallbackScreen(): JSX.Element {
   }, []);
 
   return (
-    <View className="flex-1 items-center justify-center">
-      <ActivityIndicator size="large" />
-    </View>
+    <SafeAreaView className="flex-1 bg-background-0">
+      <VStack className="flex-1 items-center justify-center" space="md">
+        <Loader2 size={48} color="#6366f1" className="animate-spin" />
+        <Text size="md" className="text-typography-500">
+          Completing sign in...
+        </Text>
+      </VStack>
+    </SafeAreaView>
   );
 }
 

@@ -1,15 +1,30 @@
 import { useState } from 'react';
 import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
   Alert,
-  ActivityIndicator,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack, router } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ChevronLeft, CheckCircle } from 'lucide-react-native';
+
+import { VStack } from '@/components/ui/vstack';
+import { HStack } from '@/components/ui/hstack';
+import { Heading } from '@/components/ui/heading';
+import { Text } from '@/components/ui/text';
+import {
+  FormControl,
+  FormControlLabel,
+  FormControlLabelText,
+  FormControlError,
+  FormControlErrorText,
+} from '@/components/ui/form-control';
+import { Input, InputField } from '@/components/ui/input';
+import { Button, ButtonText, ButtonSpinner } from '@/components/ui/button';
+import { Pressable } from '@/components/ui/pressable';
 
 import { authService } from '../services/authService';
 import {
@@ -42,13 +57,25 @@ export default function ForgotPasswordScreen() {
     return (
       <>
         <Stack.Screen options={{ headerShown: false }} />
-        <View>
-          <Text>Check your email</Text>
-          <Text>We sent a reset link to {form.getValues('email')}</Text>
-          <Pressable onPress={() => router.back()}>
-            <Text>Back to Sign In</Text>
-          </Pressable>
-        </View>
+        <SafeAreaView className="flex-1 bg-background-0">
+          <VStack className="flex-1 items-center justify-center px-6" space="xl">
+            <CheckCircle size={96} color="#22c55e" />
+            <Heading size="2xl" className="text-typography-900 text-center">
+              Check your email
+            </Heading>
+            <Text size="md" className="text-typography-500 text-center">
+              We sent a reset link to {form.getValues('email')}
+            </Text>
+            <Button
+              action="secondary"
+              variant="outline"
+              onPress={() => router.back()}
+              className="rounded-lg"
+            >
+              <ButtonText>Back to Sign In</ButtonText>
+            </Button>
+          </VStack>
+        </SafeAreaView>
       </>
     );
   }
@@ -56,42 +83,94 @@ export default function ForgotPasswordScreen() {
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      <View>
-        <Pressable onPress={() => router.back()}>
-          <Text>Back</Text>
-        </Pressable>
-
-        <Text>Forgot password?</Text>
-
-        <Controller
-          control={form.control}
-          name="email"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <View>
-              <Text>Email</Text>
-              <TextInput
-                placeholder="Enter your email"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-              {form.formState.errors.email && (
-                <Text>{form.formState.errors.email?.message}</Text>
-              )}
-            </View>
-          )}
-        />
-
-        <Pressable
-          onPress={form.handleSubmit(handleResetPassword)}
-          disabled={isLoading}
+      <SafeAreaView className="flex-1 bg-background-0">
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          className="flex-1"
         >
-          {isLoading && <ActivityIndicator />}
-          <Text>{isLoading ? 'Sending...' : 'Reset password'}</Text>
-        </Pressable>
-      </View>
+          <ScrollView
+            className="flex-1"
+            contentContainerStyle={{ flexGrow: 1 }}
+            keyboardShouldPersistTaps="handled"
+          >
+            <VStack className="flex-1 justify-center px-6 py-8" space="xl">
+              {/* Back Button */}
+              <Pressable onPress={() => router.back()} className="self-start">
+                <HStack className="items-center" space="xs">
+                  <ChevronLeft size={20} color="#6b7280" />
+                  <Text size="md" className="text-typography-500">
+                    Back
+                  </Text>
+                </HStack>
+              </Pressable>
+
+              {/* Header */}
+              <VStack space="sm">
+                <Heading size="2xl" className="text-typography-900">
+                  Forgot password?
+                </Heading>
+                <Text size="md" className="text-typography-500">
+                  Enter your email and we'll send you a link to reset your password
+                </Text>
+              </VStack>
+
+              {/* Form */}
+              <VStack className="w-full max-w-sm" space="lg">
+                {/* Email Field */}
+                <FormControl isInvalid={!!form.formState.errors.email} className="w-full">
+                  <FormControlLabel>
+                    <FormControlLabelText>Email</FormControlLabelText>
+                  </FormControlLabel>
+                  <Controller
+                    control={form.control}
+                    name="email"
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <Input size="lg" variant="outline" className="rounded-lg w-full">
+                        <InputField
+                          placeholder="Enter your email"
+                          keyboardType="email-address"
+                          autoCapitalize="none"
+                          autoComplete="email"
+                          onBlur={onBlur}
+                          onChangeText={onChange}
+                          value={value}
+                          editable={!isLoading}
+                        />
+                      </Input>
+                    )}
+                  />
+                  {form.formState.errors.email && (
+                    <FormControlError>
+                      <FormControlErrorText>
+                        {form.formState.errors.email.message}
+                      </FormControlErrorText>
+                    </FormControlError>
+                  )}
+                </FormControl>
+
+                {/* Submit Button */}
+                <Button
+                  size="xl"
+                  action="primary"
+                  onPress={form.handleSubmit(handleResetPassword)}
+                  isDisabled={isLoading}
+                  className="w-full rounded-lg"
+                >
+                  {isLoading && <ButtonSpinner />}
+                  <ButtonText>
+                    {isLoading ? 'Sending...' : 'Send reset link'}
+                  </ButtonText>
+                </Button>
+              </VStack>
+
+              {/* Footer Text */}
+              <Text size="sm" className="text-typography-500 text-center max-w-sm">
+                We'll send you an email with a link to reset your password
+              </Text>
+            </VStack>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     </>
   );
 }

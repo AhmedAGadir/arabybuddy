@@ -2,11 +2,11 @@
 module.exports = {
   darkMode: process.env.DARK_MODE ? process.env.DARK_MODE : 'class',
   content: [
-    './app/**/*.{html,js,jsx,ts,tsx,mdx}',
-    './components/**/*.{html,js,jsx,ts,tsx,mdx}',
-    './utils/**/*.{html,js,jsx,ts,tsx,mdx}',
-    './*.{html,js,jsx,ts,tsx,mdx}',
-    './src/**/*.{html,js,jsx,ts,tsx,mdx}',
+    './**/*.{js,jsx,ts,tsx,html,mdx}',
+    '!./node_modules/**',
+    '!./.git/**',
+    '!./dist/**',
+    '!./build/**',
   ],
   presets: [require('nativewind/preset')],
   important: 'html',
@@ -15,6 +15,9 @@ module.exports = {
       pattern:
         /(bg|border|text|stroke|fill)-(primary|secondary|tertiary|error|success|warning|info|typography|outline|background|indicator)-(0|50|100|200|300|400|500|600|700|800|900|950|white|gray|black|error|warning|muted|success|info|light|dark|primary)/,
     },
+    // Add standard Tailwind colors if needed (increases bundle size)
+    // Uncomment the line below to enable colors like bg-blue-400, bg-red-500, etc.
+    // { pattern: /(bg|text|border)-(slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(50|100|200|300|400|500|600|700|800|900|950)/ },
   ],
   theme: {
     extend: {

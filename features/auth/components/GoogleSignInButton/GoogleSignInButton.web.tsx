@@ -68,13 +68,20 @@ export default function GoogleSignInButton() {
       clientId={process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ?? ''}
       nonce={sha256Nonce}
     >
-      <GoogleLogin
-        nonce={sha256Nonce}
-        onSuccess={onGoogleButtonSuccess}
-        onError={onGoogleButtonFailure}
-        useOneTap={true}
-        auto_select={true}
-      />
+      <div style={{ width: '100%' }}>
+        <GoogleLogin
+          nonce={sha256Nonce}
+          onSuccess={onGoogleButtonSuccess}
+          onError={onGoogleButtonFailure}
+          useOneTap={true}
+          auto_select={true}
+          width="100%"
+          size="large"
+          theme="filled_black"
+          text="signin_with"
+          shape="rectangular"
+        />
+      </div>
     </GoogleOAuthProvider>
   );
 }

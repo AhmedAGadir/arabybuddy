@@ -1,4 +1,4 @@
-# ArabyBuddy - Product
+# ArabyBuddy - Overview
 
 Language learning app that teaches Arabic dialects through fun and immersive activities.
 
@@ -26,7 +26,7 @@ Supported dialects: **Modern Standard Arabic**, **Levantine**, **Egyptian**, **G
 - `MVP.md` - Detailed MVP implementation tracking
 - `PostMVP.md` - Post-MVP features and roadmap
 - `Backlog.md` - Technical debt tracking
-- `agent-rules.md` - Technical implementation details
+- `CLAUDE.md / .cursorrules` - Technical implementation details
 
 ---
 
@@ -41,29 +41,34 @@ Supported dialects: **Modern Standard Arabic**, **Levantine**, **Egyptian**, **G
 ## User Journey
 
 ```
-┌─────────────┐     ┌─────────────┐     ┌─────────────────────────────────────┐
-│   Splash    │────▶│  Onboarding │────▶│              Home                   │
-└─────────────┘     └─────────────┘     │  ┌─────────────┬─────────────┐      │
-                          │             │  │   Learn     │   Account   │ tabs │
-                          ▼             │  └─────────────┴─────────────┘      │
-                   ┌─────────────┐      └─────────────────────────────────────┘
-                   │  Sign In/Up │                    │
-                   └─────────────┘         ┌──────────┴──────────┐
-                                           ▼                     ▼
-                                    ┌─────────────┐       ┌─────────────┐
-                                    │  Learn Tab  │       │ Account Tab │
-                                    └─────────────┘       └─────────────┘    
-                                           │              
-                                    ┌──────┴──────┐       
-                                    ▼             ▼
-                             ┌─────────────┐ ┌─────────────┐
-                             │   Lesson    │ │    Game     │
-                             └─────────────┘ └─────────────┘
-                                    │              │
-                                    ▼              ▼
-                             ┌─────────────┐ ┌─────────────┐
-                             │  Feedback   │ │   Results   │
-                             └─────────────┘ └─────────────┘
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Splash    │────▶│    Hero     │────▶│  Sign In/Up │────▶│  Onboarding │
+└─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+                                                                   │
+                                                                   ▼
+                                        ┌─────────────────────────────────────┐
+                                        │              Home                   │
+                                        │  ┌─────────────┬─────────────┐      │
+                                        │  │   Learn     │   Account   │ tabs │
+                                        │  └─────────────┴─────────────┘      │
+                                        └─────────────────────────────────────┘
+                                                          │
+                                               ┌──────────┴──────────┐
+                                               ▼                     ▼
+                                        ┌─────────────┐       ┌─────────────┐
+                                        │  Learn Tab  │       │ Account Tab │
+                                        └─────────────┘       └─────────────┘    
+                                               │              
+                                        ┌──────┴──────┐       
+                                        ▼             ▼
+                                 ┌─────────────┐ ┌─────────────┐
+                                 │   Lesson    │ │    Game     │
+                                 └─────────────┘ └─────────────┘
+                                        │              │
+                                        ▼              ▼
+                                 ┌─────────────┐ ┌─────────────┐
+                                 │  Feedback   │ │   Results   │
+                                 └─────────────┘ └─────────────┘
 ```
 
 ---
@@ -282,26 +287,18 @@ Generated via Postgres trigger using curated Arabic-themed word lists. Users can
 
 ## Technical Foundation
 
-See `agent-rules.md for full technical details.
+See `CLAUDE.md` / `.cursorrules` for full technical implementation details.
 
-### Infrastructure
+### Stack Overview
 
-| Category | Service | Purpose |
-|----------|---------|---------|
-| **Error Tracking** | Sentry | Crash reporting, error monitoring |
-| **Analytics** | Mixpanel / PostHog | Key event tracking, conversion funnels |
-| **CI/CD** | EAS Build + GitHub Actions | Automated builds and deployments |
-| **Backend** | Supabase | Database, Auth, Edge Functions |
-| **Payments** | RevenueCat | Subscription management |
-| **Secrets** | Edge Functions | API keys server-side only |
-
-### Performance (MVP)
-
-| Area | Optimization | Why It Matters |
-|------|--------------|----------------|
-| **3D Characters** | Lazy loading + GLB compression | Large models shouldn't block app startup |
-| **Audio** | Prefetch next step audio | Seamless transitions between turns |
-| **Images** | WebP format, proper sizing | Fast load times, reduced bandwidth |
+| Layer | Technology |
+|-------|------------|
+| **Frontend** | Expo React Native, TypeScript, NativeWind + Gluestack UI |
+| **3D & Animation** | Three.js (react-three-fiber), XState, Reanimated |
+| **Backend** | Supabase (Postgres, Auth, Edge Functions, Storage) |
+| **AI Services** | OpenAI Whisper (STT), GPT-4o (Evaluation) |
+| **Payments** | RevenueCat |
+| **DevOps** | EAS Build, GitHub Actions, Sentry, Mixpanel/PostHog |
 
 ---
 

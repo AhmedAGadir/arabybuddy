@@ -18,6 +18,7 @@ Items that are stubbed, incomplete, or need improvement in the current codebase.
 
 | Item | Current State | What's Needed | Priority |
 |------|---------------|---------------|----------|
+| Monorepo Migration | Single Expo app with Supabase Edge Functions | Migrate to monorepo with workspaces: `apps/mobile`, `apps/api`, `packages/common`. See [MonorepoMigration.md](./MonorepoMigration.md) for full plan | High |
 | Google OAuth Consent Screen Branding | Default Supabase branding (`<project-id>.supabase.co`) shown to users | Set up custom domain (e.g., `auth.arabybuddy.com`) and verify brand with Google to improve user trust and reduce phishing risk | Medium |
 | Google OAuth Configuration Mismatch | Google OAuth settings (authorized redirect URIs, JavaScript origins) terms and conditions and privacy policy URLs don't match frontend configuration | Update Google Cloud Console OAuth settings to match production URLs when new website is deployed. Update privacy policy, ToS, and redirect URLs | High |
 

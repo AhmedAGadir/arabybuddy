@@ -1,4 +1,4 @@
-import { Stack } from 'expo-router';
+import { Stack, ErrorBoundaryProps } from 'expo-router';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import 'react-native-reanimated';
@@ -6,6 +6,10 @@ import 'react-native-reanimated';
 import { useAuthContext } from '@/features/auth';
 import { AppProviders } from '@/shared/providers';
 import { appFonts } from '@/shared/config';
+import { VStack } from '@/components/ui/vstack';
+import { Heading } from '@/components/ui/heading';
+import { Text } from '@/components/ui/text';
+import { Button, ButtonText } from '@/components/ui/button';
 import '@/global.css';
 
 // Configure splash screen
@@ -58,5 +62,24 @@ export default function RootLayout() {
     <AppProviders>
       <AppNavigator />
     </AppProviders>
+  );
+}
+
+/**
+ * ErrorBoundary - Catches unhandled errors in child routes
+ */
+export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
+  return (
+    <VStack className="flex-1 items-center justify-center px-5" space="lg">
+      <Heading size="2xl" className="text-typography-900">
+        Something went wrong
+      </Heading>
+      <Text size="sm" className="text-typography-500 text-center">
+        {error.message}
+      </Text>
+      <Button size="lg" action="primary" onPress={retry}>
+        <ButtonText>Try again</ButtonText>
+      </Button>
+    </VStack>
   );
 }

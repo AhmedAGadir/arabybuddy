@@ -93,7 +93,6 @@ For post-MVP features, see `PostMVP.md`. For technical debt, see `Backlog.md`.
 - [ ] RevenueCat MCP - subscription management
 
 ### State & Forms
-- [x] Zustand store configuration
 - [x] React Hook Form setup with Zod resolver
 
 ### Assets & Branding

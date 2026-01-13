@@ -1,6 +1,6 @@
 import { supabase } from '@/shared/lib/supabase';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { router } from 'expo-router';
+import { router, Href } from 'expo-router';
 
 async function onAppleButtonPress() {
   try {
@@ -51,7 +51,7 @@ async function onAppleButtonPress() {
 
       // User is signed in, navigate to the home screen
       console.log('Apple sign in successful:', credential.user);
-      router.push('/(tabs)');
+      router.push('/(tabs)' as Href);
     } else {
       throw new Error('No identity token or authorization code');
     }
@@ -69,8 +69,8 @@ export default function AppleSignInButton() {
     <AppleAuthentication.AppleAuthenticationButton
       buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
       buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
-      cornerRadius={5}
-      style={{ width: 200, height: 64 }}
+      cornerRadius={8}
+      style={{ width: '100%', height: 48 }}
       onPress={onAppleButtonPress}
     />
   );
