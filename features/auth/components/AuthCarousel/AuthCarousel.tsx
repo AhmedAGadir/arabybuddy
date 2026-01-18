@@ -81,7 +81,7 @@ export default function AuthCarousel({
         size="xl"
         action="primary"
         onPress={() => router.push(item.buttonHref)}
-        className="w-full max-w-sm rounded-lg"
+        className="w-full max-w-sm rounded-full"
       >
         <ButtonText>{item.buttonText}</ButtonText>
       </Button>

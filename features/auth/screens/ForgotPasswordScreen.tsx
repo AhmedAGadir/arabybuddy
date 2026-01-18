@@ -9,7 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack, router, Href } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ChevronLeft } from 'lucide-react-native';
+import { ArrowLeft } from 'lucide-react-native';
 
 import { VStack } from '@/shared/components/ui/vstack';
 import { HStack } from '@/shared/components/ui/hstack';
@@ -90,13 +90,8 @@ export default function ForgotPasswordScreen(): React.JSX.Element {
             >
               <VStack className="flex-1 px-6 py-8" space="xl">
                 {/* Back Button */}
-                <Pressable onPress={() => router.back()} className="self-start">
-                  <HStack className="items-center" space="xs">
-                    <ChevronLeft size={20} color="#6b7280" />
-                    <Text size="md" className="text-typography-500">
-                      Back
-                    </Text>
-                  </HStack>
+                <Pressable onPress={() => router.back()} className="self-start p-2 -m-2">
+                  <ArrowLeft size={24} color="#6b7280" />
                 </Pressable>
 
                 {/* Content */}
@@ -126,7 +121,7 @@ export default function ForgotPasswordScreen(): React.JSX.Element {
                         control={form.control}
                         name="email"
                         render={({ field: { onChange, onBlur, value } }) => (
-                          <Input size="lg" variant="outline" className="rounded-lg w-full">
+                          <Input size="lg" variant="outline" className="rounded-full w-full">
                             <InputField
                               placeholder="Enter your email"
                               keyboardType="email-address"
@@ -154,7 +149,7 @@ export default function ForgotPasswordScreen(): React.JSX.Element {
                       action="primary"
                       onPress={form.handleSubmit(handleResetPassword)}
                       isDisabled={isLoading}
-                      className="w-full rounded-lg"
+                      className="w-full rounded-full"
                     >
                       {isLoading && <ButtonSpinner />}
                       <ButtonText>
@@ -197,7 +192,7 @@ export default function ForgotPasswordScreen(): React.JSX.Element {
             size="xl"
             action="primary"
             onPress={() => router.push('/signin' as Href)}
-            className="w-full max-w-sm rounded-lg"
+            className="w-full max-w-sm rounded-full"
           >
             <ButtonText>Go Back to Log In</ButtonText>
           </Button>

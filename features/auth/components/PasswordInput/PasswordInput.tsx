@@ -26,7 +26,7 @@ export default function PasswordInput({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <Input size="lg" variant="outline" className="rounded-lg w-full">
+    <Input size="lg" variant="outline" className="rounded-full w-full">
       <InputField
         placeholder={placeholder}
         type={showPassword ? 'text' : 'password'}

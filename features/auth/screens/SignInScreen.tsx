@@ -9,7 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack, router, Href } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ChevronLeft, Mail } from 'lucide-react-native';
+import { ArrowLeft, Mail } from 'lucide-react-native';
 import { Image } from 'expo-image';
 
 import { VStack } from '@/shared/components/ui/vstack';
@@ -158,13 +158,8 @@ export default function SignInScreen(): React.JSX.Element {
           >
             <VStack className="flex-1 px-6 py-8" space="xl">
               {/* Back Button */}
-              <Pressable onPress={handleBack} className="self-start">
-                <HStack className="items-center" space="xs">
-                  <ChevronLeft size={20} color="#6b7280" />
-                  <Text size="md" className="text-typography-500">
-                    Back
-                  </Text>
-                </HStack>
+              <Pressable onPress={handleBack} className="self-start p-2 -m-2">
+                <ArrowLeft size={24} color="#6b7280" />
               </Pressable>
 
               {/* Content */}
@@ -189,7 +184,7 @@ export default function SignInScreen(): React.JSX.Element {
                       control={form.control}
                       name="email"
                       render={({ field: { onChange, onBlur, value } }) => (
-                        <Input size="lg" variant="outline" className="rounded-lg w-full">
+                        <Input size="lg" variant="outline" className="rounded-full w-full">
                           <InputField
                             placeholder="you@example.com"
                             keyboardType="email-address"
@@ -244,7 +239,7 @@ export default function SignInScreen(): React.JSX.Element {
                     action="primary"
                     onPress={form.handleSubmit(handleSignIn)}
                     isDisabled={isLoading}
-                    className="w-full rounded-lg"
+                    className="w-full rounded-full"
                   >
                     {isLoading && <ButtonSpinner />}
                     <ButtonText>

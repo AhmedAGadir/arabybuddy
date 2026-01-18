@@ -9,7 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack, router, Href } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ChevronLeft, Mail } from 'lucide-react-native';
+import { ArrowLeft, Mail } from 'lucide-react-native';
 import { Image } from 'expo-image';
 
 import { VStack } from '@/shared/components/ui/vstack';
@@ -193,13 +193,8 @@ export default function SignUpScreen(): React.JSX.Element {
             >
               <VStack className="flex-1 px-6 py-8" space="xl">
                 {/* Back Button */}
-                <Pressable onPress={handleBack} className="self-start">
-                  <HStack className="items-center" space="xs">
-                    <ChevronLeft size={20} color="#6b7280" />
-                    <Text size="md" className="text-typography-500">
-                      Back
-                    </Text>
-                  </HStack>
+                <Pressable onPress={handleBack} className="self-start p-2 -m-2">
+                  <ArrowLeft size={24} color="#6b7280" />
                 </Pressable>
 
                 {/* Progress Bar */}
@@ -232,7 +227,7 @@ export default function SignUpScreen(): React.JSX.Element {
                         control={emailForm.control}
                         name="email"
                         render={({ field: { onChange, onBlur, value } }) => (
-                          <Input size="lg" variant="outline" className="rounded-lg w-full">
+                          <Input size="lg" variant="outline" className="rounded-full w-full">
                             <InputField
                               placeholder="you@example.com"
                               keyboardType="email-address"
@@ -258,7 +253,7 @@ export default function SignUpScreen(): React.JSX.Element {
                       size="xl"
                       action="primary"
                       onPress={emailForm.handleSubmit(handleEmailSubmit)}
-                      className="w-full rounded-lg"
+                      className="w-full rounded-full"
                     >
                       <ButtonText>Confirm Email Address →</ButtonText>
                     </Button>
@@ -291,13 +286,8 @@ export default function SignUpScreen(): React.JSX.Element {
             >
               <VStack className="flex-1 px-6 py-8" space="xl">
                 {/* Back Button */}
-                <Pressable onPress={handleBack} className="self-start">
-                  <HStack className="items-center" space="xs">
-                    <ChevronLeft size={20} color="#6b7280" />
-                    <Text size="md" className="text-typography-500">
-                      Back
-                    </Text>
-                  </HStack>
+                <Pressable onPress={handleBack} className="self-start p-2 -m-2">
+                  <ArrowLeft size={24} color="#6b7280" />
                 </Pressable>
 
                 {/* Progress Bar */}
@@ -377,7 +367,7 @@ export default function SignUpScreen(): React.JSX.Element {
                       action="primary"
                       onPress={passwordForm.handleSubmit(handlePasswordSubmit)}
                       isDisabled={isLoading}
-                      className="w-full rounded-lg"
+                      className="w-full rounded-full"
                     >
                       {isLoading && <ButtonSpinner />}
                       <ButtonText>
@@ -426,7 +416,7 @@ export default function SignUpScreen(): React.JSX.Element {
               action="secondary"
               variant="outline"
               onPress={() => router.push('/signin' as Href)}
-              className="w-full max-w-sm rounded-lg"
+              className="w-full max-w-sm rounded-full"
             >
               <ButtonText>Go to Sign In</ButtonText>
             </Button>

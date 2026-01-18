@@ -125,7 +125,7 @@ export default function ResetPasswordScreen(): React.JSX.Element {
               size="xl"
               action="primary"
               onPress={() => router.replace('/signin' as Href)}
-              className="w-full max-w-sm rounded-lg"
+              className="w-full max-w-sm rounded-full"
             >
               <ButtonText>Back to Sign In</ButtonText>
             </Button>
@@ -153,7 +153,7 @@ export default function ResetPasswordScreen(): React.JSX.Element {
               size="xl"
               action="primary"
               onPress={() => router.replace('/signin' as Href)}
-              className="w-full max-w-sm rounded-lg"
+              className="w-full max-w-sm rounded-full"
             >
               <ButtonText>Sign In</ButtonText>
             </Button>
@@ -255,7 +255,7 @@ export default function ResetPasswordScreen(): React.JSX.Element {
                   action="primary"
                   onPress={form.handleSubmit(handleUpdatePassword)}
                   isDisabled={isSubmitting}
-                  className="w-full rounded-lg"
+                  className="w-full rounded-full"
                 >
                   {isSubmitting && <ButtonSpinner />}
                   <ButtonText>
