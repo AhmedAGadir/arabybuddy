@@ -148,7 +148,7 @@ export default function SignUpScreen(): React.JSX.Element {
                   className="w-full rounded-full"
                 >
                   <Mail size={20} color="white" />
-                  <ButtonText>Sign up with Email</ButtonText>
+                  <ButtonText>Sign in with Email</ButtonText>
                 </Button>
 
                 {/* Divider */}
@@ -159,8 +159,8 @@ export default function SignUpScreen(): React.JSX.Element {
                 </HStack>
 
                 {/* OAuth Buttons */}
-                <AppleSignInButton />
-                <GoogleSignInButton />
+                <AppleSignInButton variant="signup" />
+                <GoogleSignInButton variant="signup" />
               </VStack>
 
               {/* Auth Link */}

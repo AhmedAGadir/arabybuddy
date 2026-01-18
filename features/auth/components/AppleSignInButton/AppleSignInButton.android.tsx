@@ -4,11 +4,18 @@ import { AuthButton, AppleLogo } from '../AuthButton';
 import { authService } from '../../services/authService';
 import { getAuthErrorMessage } from '../../services/authErrors';
 
+export interface AppleSignInButtonProps {
+  /** "signup" = "Sign in with Apple", "signin" = "Continue with Apple" */
+  variant?: 'signup' | 'signin';
+}
+
 /**
  * AppleSignInButton (Android) - Uses OAuth redirect flow
  * Apple Sign In is not natively available on Android, so we use the web OAuth flow
  */
-export default function AppleSignInButton(): React.JSX.Element {
+export default function AppleSignInButton({
+  variant = 'signin',
+}: AppleSignInButtonProps): React.JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
 
   const handlePress = async () => {
@@ -25,11 +32,13 @@ export default function AppleSignInButton(): React.JSX.Element {
     }
   };
 
+  const label = variant === 'signup' ? 'Sign in with Apple' : 'Continue with Apple';
+
   return (
     <AuthButton
       onPress={handlePress}
       icon={<AppleLogo size={20} color="#000000" />}
-      label="Sign In with Apple"
+      label={label}
       isLoading={isLoading}
     />
   );

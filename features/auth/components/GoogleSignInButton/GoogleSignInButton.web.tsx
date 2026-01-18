@@ -5,7 +5,14 @@ import { AuthButton, GoogleLogo } from '../AuthButton';
 import { oauthService } from '../../services/oauthService.web';
 import { getAuthErrorMessage } from '../../services/authErrors';
 
-function GoogleSignInButtonInner(): React.JSX.Element {
+export interface GoogleSignInButtonProps {
+  /** "signup" = "Sign in with Google", "signin" = "Continue with Google" */
+  variant?: 'signup' | 'signin';
+}
+
+function GoogleSignInButtonInner({
+  variant = 'signin',
+}: GoogleSignInButtonProps): React.JSX.Element {
   const [nonce, setNonce] = useState('');
   const [hashedNonce, setHashedNonce] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -47,13 +54,15 @@ function GoogleSignInButtonInner(): React.JSX.Element {
     }
   };
 
+  const label = variant === 'signup' ? 'Sign in with Google' : 'Continue with Google';
+
   return (
     <View style={{ width: '100%', position: 'relative' }}>
       {/* Custom styled button */}
       <AuthButton
         onPress={handleCustomButtonPress}
         icon={<GoogleLogo size={20} />}
-        label="Sign In with Google"
+        label={label}
         isLoading={isLoading}
       />
 
@@ -81,12 +90,14 @@ function GoogleSignInButtonInner(): React.JSX.Element {
   );
 }
 
-export default function GoogleSignInButton(): React.JSX.Element {
+export default function GoogleSignInButton({
+  variant = 'signin',
+}: GoogleSignInButtonProps): React.JSX.Element {
   return (
     <GoogleOAuthProvider
       clientId={process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ?? ''}
     >
-      <GoogleSignInButtonInner />
+      <GoogleSignInButtonInner variant={variant} />
     </GoogleOAuthProvider>
   );
 }

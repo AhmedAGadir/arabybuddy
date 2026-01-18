@@ -4,10 +4,17 @@ import { AuthButton, AppleLogo } from '../AuthButton';
 import { oauthService } from '../../services/oauthService.native';
 import { getAuthErrorMessage, AuthError } from '../../services/authErrors';
 
+export interface AppleSignInButtonProps {
+  /** "signup" = "Sign in with Apple", "signin" = "Continue with Apple" */
+  variant?: 'signup' | 'signin';
+}
+
 /**
  * AppleSignInButton (iOS) - Uses native Apple Sign In via expo-apple-authentication
  */
-export default function AppleSignInButton(): React.JSX.Element {
+export default function AppleSignInButton({
+  variant = 'signin',
+}: AppleSignInButtonProps): React.JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
 
   const handlePress = async () => {
@@ -28,11 +35,13 @@ export default function AppleSignInButton(): React.JSX.Element {
     }
   };
 
+  const label = variant === 'signup' ? 'Sign in with Apple' : 'Continue with Apple';
+
   return (
     <AuthButton
       onPress={handlePress}
       icon={<AppleLogo size={20} color="#000000" />}
-      label="Sign in with Apple"
+      label={label}
       isLoading={isLoading}
     />
   );

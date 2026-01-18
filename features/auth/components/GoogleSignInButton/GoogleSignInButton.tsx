@@ -4,10 +4,17 @@ import { AuthButton, GoogleLogo } from '../AuthButton';
 import { oauthService } from '../../services/oauthService.native';
 import { getAuthErrorMessage } from '../../services/authErrors';
 
+export interface GoogleSignInButtonProps {
+  /** "signup" = "Sign in with Google", "signin" = "Continue with Google" */
+  variant?: 'signup' | 'signin';
+}
+
 /**
  * GoogleSignInButton (Native) - Uses native Google Sign-In SDK
  */
-export default function GoogleSignInButton(): React.JSX.Element {
+export default function GoogleSignInButton({
+  variant = 'signin',
+}: GoogleSignInButtonProps): React.JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
 
   const handlePress = async () => {
@@ -24,11 +31,13 @@ export default function GoogleSignInButton(): React.JSX.Element {
     }
   };
 
+  const label = variant === 'signup' ? 'Sign in with Google' : 'Continue with Google';
+
   return (
     <AuthButton
       onPress={handlePress}
       icon={<GoogleLogo size={20} />}
-      label="Sign In with Google"
+      label={label}
       isLoading={isLoading}
     />
   );
