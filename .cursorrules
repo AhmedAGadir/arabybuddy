@@ -117,6 +117,7 @@ arabybuddy/
 │
 ├── shared/                     # Cross-cutting concerns
 │   ├── components/
+│   │   └── ui/                 # Gluestack UI components
 │   ├── hooks/
 │   ├── lib/                    # supabase.ts, queryClient.ts
 │   ├── providers/              # AppProviders
@@ -125,7 +126,6 @@ arabybuddy/
 │   ├── utils/
 │   └── testing/
 │
-├── components/ui/              # Gluestack UI components
 ├── assets/
 ├── supabase/migrations/
 ├── .maestro/flows/             # E2E tests

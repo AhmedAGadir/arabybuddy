@@ -11,21 +11,21 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChevronLeft } from 'lucide-react-native';
 
-import { VStack } from '@/components/ui/vstack';
-import { HStack } from '@/components/ui/hstack';
-import { Heading } from '@/components/ui/heading';
-import { Text } from '@/components/ui/text';
-import { Box } from '@/components/ui/box';
+import { VStack } from '@/shared/components/ui/vstack';
+import { HStack } from '@/shared/components/ui/hstack';
+import { Heading } from '@/shared/components/ui/heading';
+import { Text } from '@/shared/components/ui/text';
+import { Box } from '@/shared/components/ui/box';
 import {
   FormControl,
   FormControlLabel,
   FormControlLabelText,
   FormControlError,
   FormControlErrorText,
-} from '@/components/ui/form-control';
-import { Input, InputField } from '@/components/ui/input';
-import { Button, ButtonText, ButtonSpinner } from '@/components/ui/button';
-import { Pressable } from '@/components/ui/pressable';
+} from '@/shared/components/ui/form-control';
+import { Input, InputField } from '@/shared/components/ui/input';
+import { Button, ButtonText, ButtonSpinner } from '@/shared/components/ui/button';
+import { Pressable } from '@/shared/components/ui/pressable';
 
 import { authService } from '../services/authService';
 import {

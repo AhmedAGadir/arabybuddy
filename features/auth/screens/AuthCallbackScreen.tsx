@@ -4,8 +4,8 @@ import { Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Loader2 } from 'lucide-react-native';
 
-import { VStack } from '@/components/ui/vstack';
-import { Text } from '@/components/ui/text';
+import { VStack } from '@/shared/components/ui/vstack';
+import { Text } from '@/shared/components/ui/text';
 import { authService } from '../services/authService';
 import { oauthService } from '../services/oauthService.web';
 

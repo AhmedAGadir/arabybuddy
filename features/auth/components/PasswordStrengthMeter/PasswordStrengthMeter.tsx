@@ -1,9 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Check, X } from 'lucide-react-native';
-import { VStack } from '@/components/ui/vstack';
-import { HStack } from '@/components/ui/hstack';
-import { Text } from '@/components/ui/text';
+import { VStack } from '@/shared/components/ui/vstack';
+import { HStack } from '@/shared/components/ui/hstack';
+import { Text } from '@/shared/components/ui/text';
 
 interface PasswordStrengthMeterProps {
   password: string;

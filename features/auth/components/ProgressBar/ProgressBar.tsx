@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
-import { HStack } from '@/components/ui/hstack';
-import { Text } from '@/components/ui/text';
+import { HStack } from '@/shared/components/ui/hstack';
+import { Text } from '@/shared/components/ui/text';
 
 interface ProgressBarProps {
   currentStep: number;

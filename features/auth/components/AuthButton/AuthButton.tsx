@@ -1,9 +1,9 @@
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
-import { Pressable } from '@/components/ui/pressable';
-import { HStack } from '@/components/ui/hstack';
-import { Text } from '@/components/ui/text';
-import { Box } from '@/components/ui/box';
+import { Pressable } from '@/shared/components/ui/pressable';
+import { HStack } from '@/shared/components/ui/hstack';
+import { Text } from '@/shared/components/ui/text';
+import { Box } from '@/shared/components/ui/box';
 
 interface AuthButtonProps {
   onPress: () => void;

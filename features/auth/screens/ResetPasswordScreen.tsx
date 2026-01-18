@@ -11,18 +11,18 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, XCircle, CheckCircle } from 'lucide-react-native';
 
-import { VStack } from '@/components/ui/vstack';
-import { Heading } from '@/components/ui/heading';
-import { Text } from '@/components/ui/text';
-import { Box } from '@/components/ui/box';
+import { VStack } from '@/shared/components/ui/vstack';
+import { Heading } from '@/shared/components/ui/heading';
+import { Text } from '@/shared/components/ui/text';
+import { Box } from '@/shared/components/ui/box';
 import {
   FormControl,
   FormControlLabel,
   FormControlLabelText,
   FormControlError,
   FormControlErrorText,
-} from '@/components/ui/form-control';
-import { Button, ButtonText, ButtonSpinner } from '@/components/ui/button';
+} from '@/shared/components/ui/form-control';
+import { Button, ButtonText, ButtonSpinner } from '@/shared/components/ui/button';
 
 import { PasswordInput } from '../components/PasswordInput';
 import { PasswordStrengthMeter } from '../components/PasswordStrengthMeter';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react-native';
-import { Input, InputField, InputSlot, InputIcon } from '@/components/ui/input';
-import { Pressable } from '@/components/ui/pressable';
+import { Input, InputField, InputSlot, InputIcon } from '@/shared/components/ui/input';
+import { Pressable } from '@/shared/components/ui/pressable';
 
 interface PasswordInputProps {
   placeholder?: string;

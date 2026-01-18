@@ -1,10 +1,10 @@
 import { PropsWithChildren, useState } from 'react';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { VStack } from '@/components/ui/vstack';
-import { HStack } from '@/components/ui/hstack';
-import { Text } from '@/components/ui/text';
-import { Pressable } from '@/components/ui/pressable';
-import { Box } from '@/components/ui/box';
+import { IconSymbol } from '@/shared/components/ui/icon-symbol';
+import { VStack } from '@/shared/components/ui/vstack';
+import { HStack } from '@/shared/components/ui/hstack';
+import { Text } from '@/shared/components/ui/text';
+import { Pressable } from '@/shared/components/ui/pressable';
+import { Box } from '@/shared/components/ui/box';
 
 export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
   const [isOpen, setIsOpen] = useState(false);

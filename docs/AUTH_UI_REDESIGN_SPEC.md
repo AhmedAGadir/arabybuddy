@@ -455,7 +455,7 @@ features/auth/screens/
 ### Testing Library Setup
 ```tsx
 import { render, screen, fireEvent } from '@testing-library/react-native';
-import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
+import { GluestackUIProvider } from '@/shared/components/ui/gluestack-ui-provider';
 
 // Wrapper for Gluestack components
 const wrapper = ({ children }) => (
@@ -560,7 +560,7 @@ import { ChevronLeft, CheckCircle, XCircle } from 'lucide-react-native';
 Path: `assets/images/icon.png`
 Usage:
 ```tsx
-import { Image } from '@/components/ui/image';
+import { Image } from '@/shared/components/ui/image';
 
 <Image
   source={require('@/assets/images/icon.png')}

@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 
 import { queryClient } from '../lib/queryClient';
 import { AuthProvider } from '@/features/auth';
-import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
+import { GluestackUIProvider } from '@/shared/components/ui/gluestack-ui-provider';
 import { SplashScreenController } from '../components/SplashScreenController';
 
 /**

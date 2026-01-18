@@ -4,12 +4,12 @@ import Carousel from 'react-native-reanimated-carousel';
 import { router, Href } from 'expo-router';
 import { Image } from 'expo-image';
 
-import { VStack } from '@/components/ui/vstack';
-import { HStack } from '@/components/ui/hstack';
-import { Heading } from '@/components/ui/heading';
-import { Text } from '@/components/ui/text';
-import { Button, ButtonText } from '@/components/ui/button';
-import { Box } from '@/components/ui/box';
+import { VStack } from '@/shared/components/ui/vstack';
+import { HStack } from '@/shared/components/ui/hstack';
+import { Heading } from '@/shared/components/ui/heading';
+import { Text } from '@/shared/components/ui/text';
+import { Button, ButtonText } from '@/shared/components/ui/button';
+import { Box } from '@/shared/components/ui/box';
 import { AuthLink } from '../AuthLink';
 
 export interface CarouselItem {

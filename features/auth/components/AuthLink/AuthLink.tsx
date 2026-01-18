@@ -1,8 +1,8 @@
 import React from 'react';
 import { router, Href } from 'expo-router';
-import { HStack } from '@/components/ui/hstack';
-import { Text } from '@/components/ui/text';
-import { Pressable } from '@/components/ui/pressable';
+import { HStack } from '@/shared/components/ui/hstack';
+import { Text } from '@/shared/components/ui/text';
+import { Pressable } from '@/shared/components/ui/pressable';
 
 interface AuthLinkProps {
   /** The prefix text before the link */
