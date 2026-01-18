@@ -1,33 +1,36 @@
-import { supabase } from '@/shared/lib/supabase';
-import { Button, ButtonText, ButtonIcon } from '@/components/ui/button';
-import { Apple } from 'lucide-react-native';
+import React, { useState } from 'react';
+import { Alert } from 'react-native';
+import { AuthButton, AppleLogo } from '../AuthButton';
+import { authService } from '../../services/authService';
+import { getAuthErrorMessage } from '../../services/authErrors';
 
-async function onAppleButtonPress() {
-  const redirectUrl = 'arabybuddy://auth/callback';
+/**
+ * AppleSignInButton (Android) - Uses OAuth redirect flow
+ * Apple Sign In is not natively available on Android, so we use the web OAuth flow
+ */
+export default function AppleSignInButton(): React.JSX.Element {
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'apple',
-    options: {
-      redirectTo: redirectUrl,
-      skipBrowserRedirect: false,
-    },
-  });
+  const handlePress = async () => {
+    if (isLoading) return;
 
-  if (error) {
-    console.error('Sign in error:', error);
-  }
-}
+    setIsLoading(true);
+    try {
+      const redirectUrl = 'arabybuddy://auth/callback';
+      await authService.signInWithOAuth('apple', redirectUrl);
+      // This will open the browser for OAuth, loading state will persist until redirect
+    } catch (error) {
+      Alert.alert('Sign In Failed', getAuthErrorMessage(error));
+      setIsLoading(false);
+    }
+  };
 
-export default function AppleSignInButton() {
   return (
-    <Button
-      size="lg"
-      onPress={onAppleButtonPress}
-      className="w-full bg-typography-950 data-[hover=true]:bg-typography-900 data-[active=true]:bg-typography-800"
-    >
-      <ButtonIcon as={Apple} className="text-typography-0" />
-      <ButtonText className="text-typography-0">Sign in with Apple</ButtonText>
-    </Button>
+    <AuthButton
+      onPress={handlePress}
+      icon={<AppleLogo size={20} color="#000000" />}
+      label="Sign In with Apple"
+      isLoading={isLoading}
+    />
   );
 }
-

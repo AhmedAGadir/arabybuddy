@@ -89,18 +89,24 @@ We use **feature-based architecture** with **thin routes**. Route files in `app/
 ```
 arabybuddy/
 ├── app/                        # EXPO ROUTER - Thin routes only
-│   ├── _layout.tsx             # Root layout (providers only)
-│   ├── login.tsx               # → export { LoginScreen } from '@/features/auth'
+│   ├── _layout.tsx             # Root layout (providers)
+│   ├── welcome.tsx             # → export { WelcomeScreen } from '@/features/auth'
+│   ├── signin.tsx
+│   ├── signup.tsx
+│   ├── forgot-password.tsx
+│   ├── reset-password.tsx
+│   ├── auth/callback.tsx       # OAuth callback handler
 │   └── (tabs)/
 │       ├── _layout.tsx         # Tab navigator config
 │       └── index.tsx           # → export { HomeScreen } from '@/features/lessons'
 │
 ├── features/                   # FEATURE MODULES - All business logic
 │   ├── auth/
-│   │   ├── components/         # Feature-specific components
+│   │   ├── components/         # UI components (AuthButton/, PasswordInput/, etc.)
 │   │   ├── screens/            # Screen components
-│   │   ├── hooks/              # Feature hooks
-│   │   ├── services/           # API/business logic
+│   │   ├── hooks/              # useAuthContext, etc.
+│   │   ├── providers/          # AuthProvider
+│   │   ├── services/           # authService, oauthService.native/web
 │   │   ├── validation/         # Zod schemas
 │   │   └── index.ts            # Public API barrel
 │   ├── lessons/
@@ -110,13 +116,14 @@ arabybuddy/
 │   └── subscriptions/
 │
 ├── shared/                     # Cross-cutting concerns
-│   ├── components/             # Shared components
+│   ├── components/
 │   ├── hooks/
 │   ├── lib/                    # supabase.ts, queryClient.ts
+│   ├── providers/              # AppProviders
 │   ├── constants/
 │   ├── types/                  # database.types.ts (generated)
 │   ├── utils/
-│   └── testing/                # Test infrastructure
+│   └── testing/
 │
 ├── components/ui/              # Gluestack UI components
 ├── assets/
@@ -152,6 +159,48 @@ arabybuddy/
 - Explicit return types on exported functions
 - Prefer `unknown` over `any`
 
+
+### Component Architecture
+
+**React components should be "dumb" - they handle UI only, not business logic.**
+
+Components should only:
+- Manage UI state (loading, error display, form inputs)
+- Call service methods
+- Render UI based on props/state
+
+Business logic belongs in:
+- `services/` - API calls, data transformations, auth flows
+- `hooks/` - reusable stateful logic
+- `validation/` - Zod schemas
+
+```tsx
+// BAD - business logic in component
+function SignInButton() {
+  const handlePress = async () => {
+    await GoogleSignin.hasPlayServices();
+    const response = await GoogleSignin.signIn();
+    await supabase.auth.signInWithIdToken({...});
+  };
+}
+
+// GOOD - component calls service
+function SignInButton() {
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const handlePress = async () => {
+    setIsLoading(true);
+    try {
+      await authService.signInWithGoogle();
+    } catch (error) {
+      Alert.alert('Error', getAuthErrorMessage(error));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+}
+```
+
 ### Styling
 
 **Use Gluestack UI components**
@@ -162,10 +211,31 @@ arabybuddy/
 - Avoid using `StyleSheet.create()` or hardcoded hex colors if possible
 - Inline `style={{}}` only for native 3rd-party components
 
-### Arabic Content
+### Fonts & Arabic Content
 
-- Body text: Tajawal font
-- Headings: DGBebo font
+Default fonts are applied automatically via Gluestack UI components:
+- `<Heading>` uses Luckiest Guy (English display font)
+- `<Text>` uses Inter (English body font)
+
+For Arabic text, add the appropriate font class:
+
+```tsx
+// Arabic headings
+<Heading className="font-heading-ar">مرحبا</Heading>
+<Heading className="font-heading-ar-bold">عنوان عريض</Heading>
+
+// Arabic body text
+<Text className="font-body-ar">نص عربي</Text>
+<Text className="font-body-ar-medium">نص متوسط</Text>
+<Text className="font-body-ar-bold">نص عريض</Text>
+```
+
+| Purpose | Font | Class |
+|---------|------|-------|
+| English Headings | Luckiest Guy | (default) |
+| Arabic Headings | DG Bebo | `font-heading-ar` |
+| English Body | Inter | (default) |
+| Arabic Body | Tajawal | `font-body-ar` |
 
 ### State Management
 

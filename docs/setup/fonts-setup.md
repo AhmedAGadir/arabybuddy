@@ -1,115 +1,84 @@
 # Font Setup Guide
 
-## Required Fonts
+## Font Strategy
 
-ArabyBuddy uses custom fonts for branding and Arabic text:
+ArabyBuddy uses custom fonts for branding and bilingual (English/Arabic) text:
 
-1. **Luckiest Guy** - Display font for playful English headings
-2. **DG Bebo** - Arabic display font for Arabic headings
-3. **Poppins** - Sans-serif font for English body text
-4. **Tajawal** - Sans-serif font for Arabic body text
+| Purpose | Font | Usage |
+|---------|------|-------|
+| English Headings | **Luckiest Guy** | Display/hero text, app branding |
+| Arabic Headings | **DG Bebo** | Arabic display text, headings |
+| English Body | **Inter** | UI text, paragraphs, buttons |
+| Arabic Body | **Tajawal** | Arabic UI text, paragraphs |
 
-## Installation Steps
+## Font Sources
 
-### 1. Download Fonts
+- **Luckiest Guy**: `@expo-google-fonts/luckiest-guy`
+- **Inter**: `@expo-google-fonts/inter`
+- **Tajawal**: `@expo-google-fonts/tajawal`
+- **DG Bebo**: Local files in `/assets/fonts/`
 
-- **Luckiest Guy**: [Google Fonts](https://fonts.google.com/specimen/Luckiest+Guy)
-- **Poppins**: [Google Fonts](https://fonts.google.com/specimen/Poppins)
-- **Tajawal**: [Google Fonts](https://fonts.google.com/specimen/Tajawal)
-- **DG Bebo**: Download from Arabic font repositories or purchase
+## Tailwind Font Classes
 
-### 2. Add Font Files
+Use these utility classes in your components:
 
-Place font files in `/assets/fonts/`:
-
-```
-assets/
-└── fonts/
-    ├── LuckiestGuy-Regular.ttf
-    ├── Poppins-Regular.ttf
-    ├── Poppins-Medium.ttf
-    ├── Poppins-SemiBold.ttf
-    ├── Poppins-Bold.ttf
-    ├── Tajawal-Regular.ttf
-    ├── Tajawal-Medium.ttf
-    ├── Tajawal-Bold.ttf
-    ├── DGBebo-Regular.ttf
-    └── DGBebo-Bold.ttf
-```
-
-### 3. Load Fonts in Root Layout
-
-Update `/app/_layout.tsx`:
-
-```typescript
-import { useFonts } from 'expo-font';
-
-export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
-    'LuckiestGuy-Regular': require('../assets/fonts/LuckiestGuy-Regular.ttf'),
-    'Poppins-Regular': require('../assets/fonts/Poppins-Regular.ttf'),
-    'Poppins-Medium': require('../assets/fonts/Poppins-Medium.ttf'),
-    'Poppins-SemiBold': require('../assets/fonts/Poppins-SemiBold.ttf'),
-    'Poppins-Bold': require('../assets/fonts/Poppins-Bold.ttf'),
-    'Tajawal-Regular': require('../assets/fonts/Tajawal-Regular.ttf'),
-    'Tajawal-Medium': require('../assets/fonts/Tajawal-Medium.ttf'),
-    'Tajawal-Bold': require('../assets/fonts/Tajawal-Bold.ttf'),
-    'DGBebo-Regular': require('../assets/fonts/DGBebo-Regular.ttf'),
-    'DGBebo-Bold': require('../assets/fonts/DGBebo-Bold.ttf'),
-  });
-
-  useEffect(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
-  // ... rest of layout
-}
-```
-
-### 4. Usage
-
-Fonts are loaded in `_layout.tsx`. Use them with the `fontFamily` style property:
-
-**English display heading:**
 ```tsx
+// English headings
+<Text className="font-heading-en text-4xl">Welcome!</Text>
+
+// Arabic headings
+<Text className="font-heading-ar text-2xl">مرحبا</Text>
+<Text className="font-heading-ar-bold text-2xl">مرحبا بك</Text>
+
+// English body text
+<Text className="font-body-en">This is body text</Text>
+<Text className="font-body-en-medium">Medium weight</Text>
+<Text className="font-body-en-semibold">Semi-bold weight</Text>
+<Text className="font-body-en-bold">Bold weight</Text>
+
+// Arabic body text
+<Text className="font-body-ar">هذا نص عربي</Text>
+<Text className="font-body-ar-medium">نص متوسط</Text>
+<Text className="font-body-ar-bold">نص عريض</Text>
+```
+
+## Font Weights Available
+
+| Font | Weights |
+|------|---------|
+| Luckiest Guy | Regular only |
+| DG Bebo | Regular, Bold |
+| Inter | Regular (400), Medium (500), SemiBold (600), Bold (700) |
+| Tajawal | Regular (400), Medium (500), Bold (700) |
+
+## Inline Style Usage
+
+You can also use fonts directly with the `fontFamily` style property:
+
+```tsx
+// English display heading
 <Text style={{ fontFamily: 'LuckiestGuy', fontSize: 32 }}>Welcome!</Text>
-```
 
-**Arabic heading:**
-```tsx
+// Arabic heading
 <Text style={{ fontFamily: 'DGBebo-Bold', fontSize: 24 }}>مرحبا</Text>
-```
 
-**English body text:**
-```tsx
-<Text style={{ fontFamily: 'Poppins' }}>This is body text</Text>
-```
+// English body text
+<Text style={{ fontFamily: 'Inter' }}>This is body text</Text>
 
-**Arabic body text:**
-```tsx
+// Arabic body text
 <Text style={{ fontFamily: 'Tajawal' }}>هذا نص عربي</Text>
 ```
 
-> **Note:** Once NativeWind/Tailwind CSS is configured, these will be available as utility classes.
+## Configuration Files
 
-## Font Weights
-
-- Poppins: Regular (400), Medium (500), SemiBold (600), Bold (700)
-- Tajawal: Regular (400), Medium (500), Bold (700)
-- Luckiest Guy: Regular only
-- DG Bebo: Regular, Bold
+- Font loading: `/shared/config/fonts.ts`
+- Tailwind config: `/tailwind.config.js` (fontFamily section)
+- Root layout: `/app/_layout.tsx` (uses `useFonts` hook)
 
 ## Notes
 
-- Fonts are loaded asynchronously on app start
+- Fonts are loaded asynchronously on app start via `expo-font`
 - Splash screen stays visible until fonts are loaded
-- Consider font subsetting for production to reduce bundle size
-
-> **TODO:** Configure Tailwind/NativeWind font utilities once styling is set up.
+- Google Fonts are loaded via `@expo-google-fonts/*` packages
+- DG Bebo is loaded from local TTF files in `/assets/fonts/`
 

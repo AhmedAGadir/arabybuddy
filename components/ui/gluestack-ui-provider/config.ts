@@ -3,18 +3,19 @@ import { vars } from 'nativewind';
 
 export const config = {
   light: vars({
-    '--color-primary-0': '179 179 179',
-    '--color-primary-50': '153 153 153',
-    '--color-primary-100': '128 128 128',
-    '--color-primary-200': '115 115 115',
-    '--color-primary-300': '102 102 102',
-    '--color-primary-400': '82 82 82',
-    '--color-primary-500': '51 51 51',
-    '--color-primary-600': '41 41 41',
-    '--color-primary-700': '31 31 31',
-    '--color-primary-800': '13 13 13',
-    '--color-primary-900': '10 10 10',
-    '--color-primary-950': '8 8 8',
+    /* Primary - ArabyBuddy Purple (#5e17eb) */
+    '--color-primary-0': '245 240 255',
+    '--color-primary-50': '237 228 254',
+    '--color-primary-100': '220 204 253',
+    '--color-primary-200': '189 156 250',
+    '--color-primary-300': '158 108 247',
+    '--color-primary-400': '126 60 243',
+    '--color-primary-500': '94 23 235',
+    '--color-primary-600': '80 20 200',
+    '--color-primary-700': '66 16 165',
+    '--color-primary-800': '52 13 130',
+    '--color-primary-900': '38 9 95',
+    '--color-primary-950': '24 6 60',
 
     /* Secondary  */
     '--color-secondary-0': '253 253 253',
@@ -155,18 +156,19 @@ export const config = {
     '--color-indicator-error': '185 28 28',
   }),
   dark: vars({
-    '--color-primary-0': '166 166 166',
-    '--color-primary-50': '175 175 175',
-    '--color-primary-100': '186 186 186',
-    '--color-primary-200': '197 197 197',
-    '--color-primary-300': '212 212 212',
-    '--color-primary-400': '221 221 221',
-    '--color-primary-500': '230 230 230',
-    '--color-primary-600': '240 240 240',
-    '--color-primary-700': '250 250 250',
-    '--color-primary-800': '253 253 253',
-    '--color-primary-900': '254 249 249',
-    '--color-primary-950': '253 252 252',
+    /* Primary - ArabyBuddy Purple (#5e17eb) - inverted for dark mode */
+    '--color-primary-0': '24 6 60',
+    '--color-primary-50': '38 9 95',
+    '--color-primary-100': '52 13 130',
+    '--color-primary-200': '66 16 165',
+    '--color-primary-300': '80 20 200',
+    '--color-primary-400': '94 23 235',
+    '--color-primary-500': '126 60 243',
+    '--color-primary-600': '158 108 247',
+    '--color-primary-700': '189 156 250',
+    '--color-primary-800': '220 204 253',
+    '--color-primary-900': '237 228 254',
+    '--color-primary-950': '245 240 255',
 
     /* Secondary  */
     '--color-secondary-0': '20 20 20',

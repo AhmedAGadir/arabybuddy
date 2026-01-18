@@ -1,88 +1,92 @@
-import { supabase } from '@/shared/lib/supabase';
-import {
-  CredentialResponse,
-  GoogleLogin,
-  GoogleOAuthProvider,
-} from '@react-oauth/google';
-import { SignInWithIdTokenCredentials } from '@supabase/supabase-js';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, Alert } from 'react-native';
+import { GoogleLogin, GoogleOAuthProvider, CredentialResponse } from '@react-oauth/google';
+import { AuthButton, GoogleLogo } from '../AuthButton';
+import { oauthService } from '../../services/oauthService.web';
+import { getAuthErrorMessage } from '../../services/authErrors';
 
-export default function GoogleSignInButton() {
-  // Generate secure, random values for state and nonce
+function GoogleSignInButtonInner(): React.JSX.Element {
   const [nonce, setNonce] = useState('');
-  const [sha256Nonce, setSha256Nonce] = useState('');
-
-  async function onGoogleButtonSuccess(authRequestResponse: CredentialResponse) {
-    console.debug('Google sign in successful:', { authRequestResponse });
-    if (authRequestResponse.clientId && authRequestResponse.credential) {
-      const signInWithIdTokenCredentials: SignInWithIdTokenCredentials = {
-        provider: 'google',
-        token: authRequestResponse.credential,
-        nonce: nonce,
-      };
-
-      const { data, error } = await supabase.auth.signInWithIdToken(
-        signInWithIdTokenCredentials
-      );
-
-      if (error) {
-        console.error('Error signing in with Google:', error);
-      }
-
-      if (data) {
-        console.log('Google sign in successful:', data);
-      }
-    }
-  }
-
-  function onGoogleButtonFailure() {
-    console.error('Error signing in with Google');
-  }
+  const [hashedNonce, setHashedNonce] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const hiddenButtonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function generateNonce(): string {
-      const array = new Uint32Array(1);
-      window.crypto.getRandomValues(array);
-      return array[0].toString();
-    }
-
-    async function generateSha256Nonce(nonce: string): Promise<string> {
-      const buffer = await window.crypto.subtle.digest(
-        'sha-256',
-        new TextEncoder().encode(nonce)
-      );
-      const array = Array.from(new Uint8Array(buffer));
-      return array.map((b) => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    let nonce = generateNonce();
-    setNonce(nonce);
-
-    generateSha256Nonce(nonce).then((sha256Nonce) => {
-      setSha256Nonce(sha256Nonce);
+    // Generate nonce on mount
+    oauthService.generateGoogleNonce().then(({ nonce, hashedNonce }) => {
+      setNonce(nonce);
+      setHashedNonce(hashedNonce);
     });
   }, []);
 
+  const handleGoogleSuccess = async (credential: CredentialResponse) => {
+    setIsLoading(true);
+    try {
+      await oauthService.signInWithGoogleCredential(credential, nonce);
+      // Navigation handled by AuthProvider via onAuthStateChange
+    } catch (error) {
+      Alert.alert('Sign In Failed', getAuthErrorMessage(error));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleFailure = () => {
+    Alert.alert('Sign In Failed', 'Google sign in failed. Please try again.');
+  };
+
+  const handleCustomButtonPress = () => {
+    if (isLoading) return;
+
+    // Find and click the hidden Google button
+    const googleButton = hiddenButtonRef.current?.querySelector(
+      '[role="button"]'
+    ) as HTMLElement;
+    if (googleButton) {
+      googleButton.click();
+    }
+  };
+
   return (
-    <GoogleOAuthProvider
-      clientId={process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ?? ''}
-      nonce={sha256Nonce}
-    >
-      <div style={{ width: '100%' }}>
+    <View style={{ width: '100%', position: 'relative' }}>
+      {/* Custom styled button */}
+      <AuthButton
+        onPress={handleCustomButtonPress}
+        icon={<GoogleLogo size={20} />}
+        label="Sign In with Google"
+        isLoading={isLoading}
+      />
+
+      {/* Hidden Google Login for OAuth flow */}
+      <div
+        ref={hiddenButtonRef}
+        style={{
+          position: 'absolute',
+          opacity: 0,
+          pointerEvents: 'none',
+          width: 1,
+          height: 1,
+          overflow: 'hidden',
+        }}
+      >
         <GoogleLogin
-          nonce={sha256Nonce}
-          onSuccess={onGoogleButtonSuccess}
-          onError={onGoogleButtonFailure}
-          useOneTap={true}
-          auto_select={true}
-          width="100%"
-          size="large"
-          theme="filled_black"
-          text="signin_with"
-          shape="rectangular"
+          nonce={hashedNonce}
+          onSuccess={handleGoogleSuccess}
+          onError={handleGoogleFailure}
+          useOneTap={false}
+          auto_select={false}
         />
       </div>
-    </GoogleOAuthProvider>
+    </View>
   );
 }
 
+export default function GoogleSignInButton(): React.JSX.Element {
+  return (
+    <GoogleOAuthProvider
+      clientId={process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ?? ''}
+    >
+      <GoogleSignInButtonInner />
+    </GoogleOAuthProvider>
+  );
+}

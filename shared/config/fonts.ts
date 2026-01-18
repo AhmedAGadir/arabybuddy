@@ -1,9 +1,9 @@
 import {
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from '@expo-google-fonts/poppins';
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+} from '@expo-google-fonts/inter';
 import {
   Tajawal_400Regular,
   Tajawal_500Medium,
@@ -15,28 +15,28 @@ import { LuckiestGuy_400Regular } from '@expo-google-fonts/luckiest-guy';
  * Font configuration for the app
  *
  * Fonts:
- * - Poppins: English UI text
- * - Tajawal: Arabic body text
+ * - LuckiestGuy: English headings (display font)
  * - DGBebo: Arabic headings
- * - LuckiestGuy: Playful display text
+ * - Inter: English body text
+ * - Tajawal: Arabic body text
  */
 export const appFonts = {
-  // Display font
+  // English heading font (display)
   LuckiestGuy: LuckiestGuy_400Regular,
 
-  // English UI font
-  Poppins: Poppins_400Regular,
-  'Poppins-Medium': Poppins_500Medium,
-  'Poppins-SemiBold': Poppins_600SemiBold,
-  'Poppins-Bold': Poppins_700Bold,
+  // Arabic heading font (loaded from assets)
+  DGBebo: require('../../assets/fonts/DGBebo-Regular.ttf'),
+  'DGBebo-Bold': require('../../assets/fonts/DGBebo-Bold.ttf'),
+
+  // English body font
+  Inter: Inter_400Regular,
+  'Inter-Medium': Inter_500Medium,
+  'Inter-SemiBold': Inter_600SemiBold,
+  'Inter-Bold': Inter_700Bold,
 
   // Arabic body font
   Tajawal: Tajawal_400Regular,
   'Tajawal-Medium': Tajawal_500Medium,
   'Tajawal-Bold': Tajawal_700Bold,
-
-  // Arabic heading font (loaded from assets)
-  DGBebo: require('../../assets/fonts/DGBebo-Regular.ttf'),
-  'DGBebo-Bold': require('../../assets/fonts/DGBebo-Bold.ttf'),
 } as const;
 

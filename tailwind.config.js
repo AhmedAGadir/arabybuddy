@@ -178,14 +178,24 @@ module.exports = {
         },
       },
       fontFamily: {
+        // English headings (display font)
+        'heading-en': ['LuckiestGuy'],
+        // Arabic headings
+        'heading-ar': ['DGBebo'],
+        'heading-ar-bold': ['DGBebo-Bold'],
+        // English body text
+        'body-en': ['Inter'],
+        'body-en-medium': ['Inter-Medium'],
+        'body-en-semibold': ['Inter-SemiBold'],
+        'body-en-bold': ['Inter-Bold'],
+        // Arabic body text
+        'body-ar': ['Tajawal'],
+        'body-ar-medium': ['Tajawal-Medium'],
+        'body-ar-bold': ['Tajawal-Bold'],
+        // Legacy/generic aliases
         heading: undefined,
         body: undefined,
         mono: undefined,
-        jakarta: ['var(--font-plus-jakarta-sans)'],
-        roboto: ['var(--font-roboto)'],
-        code: ['var(--font-source-code-pro)'],
-        inter: ['var(--font-inter)'],
-        'space-mono': ['var(--font-space-mono)'],
       },
       fontWeight: {
         extrablack: '950',

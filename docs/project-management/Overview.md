@@ -42,7 +42,7 @@ Supported dialects: **Modern Standard Arabic**, **Levantine**, **Egyptian**, **G
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Splash    │────▶│    Hero     │────▶│  Sign In/Up │────▶│  Onboarding │
+│   Splash    │────▶│   Welcome   │────▶│     Auth    │────▶│  Onboarding │
 └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
                                                                    │
                                                                    ▼

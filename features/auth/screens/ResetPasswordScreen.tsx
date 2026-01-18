@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   KeyboardAvoidingView,
   ScrollView,
@@ -14,6 +14,7 @@ import { Loader2, XCircle, CheckCircle } from 'lucide-react-native';
 import { VStack } from '@/components/ui/vstack';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
+import { Box } from '@/components/ui/box';
 import {
   FormControl,
   FormControlLabel,
@@ -21,28 +22,34 @@ import {
   FormControlError,
   FormControlErrorText,
 } from '@/components/ui/form-control';
-import { Input, InputField } from '@/components/ui/input';
 import { Button, ButtonText, ButtonSpinner } from '@/components/ui/button';
 
+import { PasswordInput } from '../components/PasswordInput';
+import { PasswordStrengthMeter } from '../components/PasswordStrengthMeter';
 import { authService } from '../services/authService';
-import { supabase } from '@/shared/lib/supabase';
+import { getAuthErrorMessage } from '../services/authErrors';
 import {
-  updatePasswordSchema,
-  type UpdatePasswordInput,
+  createPasswordSchema,
+  type CreatePasswordInput,
 } from '../validation/authSchemas';
 
-export default function ResetPasswordScreen() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isValidSession, setIsValidSession] = useState(false);
-  const [isCheckingSession, setIsCheckingSession] = useState(true);
+type State = 'loading' | 'invalidLink' | 'form' | 'success';
+
+/**
+ * ResetPasswordScreen - Set new password after clicking reset link
+ */
+export default function ResetPasswordScreen(): React.JSX.Element {
+  const [state, setState] = useState<State>('loading');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const params = useLocalSearchParams();
 
-  const form = useForm<UpdatePasswordInput>({
-    resolver: zodResolver(updatePasswordSchema),
+  const form = useForm<CreatePasswordInput>({
+    resolver: zodResolver(createPasswordSchema),
     defaultValues: { password: '', confirmPassword: '' },
   });
+
+  const passwordValue = form.watch('password');
 
   useEffect(() => {
     const handleTokenExchange = async () => {
@@ -51,52 +58,46 @@ export default function ResetPasswordScreen() {
         const refreshToken = params.refresh_token as string | undefined;
 
         if (accessToken && refreshToken) {
-          const { error } = await supabase.auth.setSession({
-            access_token: accessToken,
-            refresh_token: refreshToken,
-          });
-          if (error) throw error;
+          await authService.setSession(accessToken, refreshToken);
         }
 
         const session = await authService.getSession();
         if (session) {
-          setIsValidSession(true);
+          setState('form');
         } else {
-          Alert.alert('Link Expired', 'Please request a new one.', [
-            { text: 'OK', onPress: () => router.replace('/login' as Href) },
-          ]);
+          setState('invalidLink');
         }
-      } catch (error: any) {
-        Alert.alert('Error', error.message, [
-          { text: 'OK', onPress: () => router.replace('/login' as Href) },
+      } catch (error) {
+        Alert.alert('Error', getAuthErrorMessage(error), [
+          { text: 'OK', onPress: () => router.replace('/signin' as Href) },
         ]);
-      } finally {
-        setIsCheckingSession(false);
+        setState('invalidLink');
       }
     };
 
     handleTokenExchange();
   }, [params.access_token, params.refresh_token]);
 
-  const handleUpdatePassword = async (data: UpdatePasswordInput) => {
-    setIsLoading(true);
+  const handleUpdatePassword = async (data: CreatePasswordInput) => {
+    setIsSubmitting(true);
     try {
       await authService.updatePassword(data.password);
-      setIsSuccess(true);
+      setState('success');
     } catch (error: any) {
       Alert.alert('Error', error.message || 'Failed to update password.');
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   };
 
-  if (isCheckingSession) {
+  // Loading State
+  if (state === 'loading') {
     return (
       <>
         <Stack.Screen options={{ headerShown: false }} />
         <SafeAreaView className="flex-1 bg-background-0">
           <VStack className="flex-1 items-center justify-center" space="md">
-            <Loader2 size={48} color="#6366f1" className="animate-spin" />
+            <Loader2 size={48} color="#6366f1" />
             <Text size="md" className="text-typography-500">
               Verifying link...
             </Text>
@@ -106,7 +107,8 @@ export default function ResetPasswordScreen() {
     );
   }
 
-  if (!isValidSession) {
+  // Invalid Link State
+  if (state === 'invalidLink') {
     return (
       <>
         <Stack.Screen options={{ headerShown: false }} />
@@ -116,13 +118,14 @@ export default function ResetPasswordScreen() {
             <Heading size="2xl" className="text-typography-900 text-center">
               Link expired
             </Heading>
-            <Text size="md" className="text-typography-500 text-center">
+            <Text size="md" className="text-typography-500 text-center max-w-sm">
               This reset link is no longer valid. Please request a new password reset.
             </Text>
             <Button
+              size="xl"
               action="primary"
-              onPress={() => router.replace('/login' as Href)}
-              className="rounded-lg"
+              onPress={() => router.replace('/signin' as Href)}
+              className="w-full max-w-sm rounded-lg"
             >
               <ButtonText>Back to Sign In</ButtonText>
             </Button>
@@ -132,7 +135,8 @@ export default function ResetPasswordScreen() {
     );
   }
 
-  if (isSuccess) {
+  // Success State
+  if (state === 'success') {
     return (
       <>
         <Stack.Screen options={{ headerShown: false }} />
@@ -142,13 +146,14 @@ export default function ResetPasswordScreen() {
             <Heading size="2xl" className="text-typography-900 text-center">
               Password updated
             </Heading>
-            <Text size="md" className="text-typography-500 text-center">
+            <Text size="md" className="text-typography-500 text-center max-w-sm">
               Your password has been successfully reset. You can now sign in with your new password.
             </Text>
             <Button
+              size="xl"
               action="primary"
-              onPress={() => router.replace('/login' as Href)}
-              className="rounded-lg"
+              onPress={() => router.replace('/signin' as Href)}
+              className="w-full max-w-sm rounded-lg"
             >
               <ButtonText>Sign In</ButtonText>
             </Button>
@@ -158,6 +163,7 @@ export default function ResetPasswordScreen() {
     );
   }
 
+  // Form State
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
@@ -171,20 +177,24 @@ export default function ResetPasswordScreen() {
             contentContainerStyle={{ flexGrow: 1 }}
             keyboardShouldPersistTaps="handled"
           >
-            <VStack className="flex-1 justify-center px-6 py-8" space="xl">
+            <VStack className="flex-1 items-center justify-center px-6 py-8" space="xl">
+              {/* Placeholder Image */}
+              <Box className="w-48 h-48 bg-background-100 rounded-2xl items-center justify-center border border-background-200">
+                <Text className="text-typography-400">Placeholder Image</Text>
+              </Box>
+
               {/* Header */}
-              <VStack space="sm">
-                <Heading size="2xl" className="text-typography-900">
-                  Set new password
+              <VStack className="items-center" space="sm">
+                <Heading size="2xl" className="text-typography-900 text-center">
+                  Create a New Password!
                 </Heading>
-                <Text size="md" className="text-typography-500">
-                  Choose a strong password to secure your account
+                <Text size="md" className="text-typography-500 text-center max-w-sm">
+                  Set a new password to regain access to your account!
                 </Text>
               </VStack>
 
               {/* Form */}
               <VStack className="w-full max-w-sm" space="lg">
-                {/* Password Field */}
                 <FormControl isInvalid={!!form.formState.errors.password} className="w-full">
                   <FormControlLabel>
                     <FormControlLabelText>New Password</FormControlLabelText>
@@ -193,18 +203,13 @@ export default function ResetPasswordScreen() {
                     control={form.control}
                     name="password"
                     render={({ field: { onChange, onBlur, value } }) => (
-                      <Input size="lg" variant="outline" className="rounded-lg w-full">
-                        <InputField
-                          placeholder="Enter new password"
-                          type="password"
-                          autoCapitalize="none"
-                          autoComplete="new-password"
-                          onBlur={onBlur}
-                          onChangeText={onChange}
-                          value={value}
-                          editable={!isLoading}
-                        />
-                      </Input>
+                      <PasswordInput
+                        placeholder="Enter new password"
+                        value={value}
+                        onChangeText={onChange}
+                        onBlur={onBlur}
+                        editable={!isSubmitting}
+                      />
                     )}
                   />
                   {form.formState.errors.password && (
@@ -216,7 +221,6 @@ export default function ResetPasswordScreen() {
                   )}
                 </FormControl>
 
-                {/* Confirm Password Field */}
                 <FormControl isInvalid={!!form.formState.errors.confirmPassword} className="w-full">
                   <FormControlLabel>
                     <FormControlLabelText>Confirm Password</FormControlLabelText>
@@ -225,18 +229,13 @@ export default function ResetPasswordScreen() {
                     control={form.control}
                     name="confirmPassword"
                     render={({ field: { onChange, onBlur, value } }) => (
-                      <Input size="lg" variant="outline" className="rounded-lg w-full">
-                        <InputField
-                          placeholder="Confirm new password"
-                          type="password"
-                          autoCapitalize="none"
-                          autoComplete="new-password"
-                          onBlur={onBlur}
-                          onChangeText={onChange}
-                          value={value}
-                          editable={!isLoading}
-                        />
-                      </Input>
+                      <PasswordInput
+                        placeholder="Confirm new password"
+                        value={value}
+                        onChangeText={onChange}
+                        onBlur={onBlur}
+                        editable={!isSubmitting}
+                      />
                     )}
                   />
                   {form.formState.errors.confirmPassword && (
@@ -248,25 +247,22 @@ export default function ResetPasswordScreen() {
                   )}
                 </FormControl>
 
-                {/* Submit Button */}
+                {/* Password Strength Meter */}
+                <PasswordStrengthMeter password={passwordValue} />
+
                 <Button
                   size="xl"
                   action="primary"
                   onPress={form.handleSubmit(handleUpdatePassword)}
-                  isDisabled={isLoading}
+                  isDisabled={isSubmitting}
                   className="w-full rounded-lg"
                 >
-                  {isLoading && <ButtonSpinner />}
+                  {isSubmitting && <ButtonSpinner />}
                   <ButtonText>
-                    {isLoading ? 'Updating...' : 'Reset Password'}
+                    {isSubmitting ? 'Updating...' : 'Create New Password'}
                   </ButtonText>
                 </Button>
               </VStack>
-
-              {/* Helper Text */}
-              <Text size="sm" className="text-typography-500 text-center max-w-sm">
-                Password must be at least 8 characters with an uppercase letter and a number
-              </Text>
             </VStack>
           </ScrollView>
         </KeyboardAvoidingView>
@@ -274,4 +270,3 @@ export default function ResetPasswordScreen() {
     </>
   );
 }
-

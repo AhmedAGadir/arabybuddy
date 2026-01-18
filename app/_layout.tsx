@@ -31,18 +31,23 @@ function AppNavigator() {
 
   return (
     <Stack>
+      {/* Authenticated routes */}
       <Stack.Protected guard={isLoggedIn}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack.Protected>
+
+      {/* Unauthenticated routes */}
       <Stack.Protected guard={!isLoggedIn}>
-        <Stack.Screen name="login" options={{ headerShown: false }} />
+        <Stack.Screen name="welcome" options={{ headerShown: false }} />
+        <Stack.Screen name="signup" options={{ headerShown: false }} />
+        <Stack.Screen name="signin" options={{ headerShown: false }} />
+        <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
+        <Stack.Screen name="reset-password" options={{ headerShown: false }} />
       </Stack.Protected>
-      <Stack.Protected guard={!isLoggedIn}>
-        <Stack.Screen
-          name="modal"
-          options={{ presentation: 'modal', title: 'Modal' }}
-        />
-      </Stack.Protected>
+
+      {/* OAuth callback - accessible regardless of auth state */}
+      <Stack.Screen name="auth/callback" options={{ headerShown: false }} />
+
       <Stack.Screen name="+not-found" />
     </Stack>
   );
